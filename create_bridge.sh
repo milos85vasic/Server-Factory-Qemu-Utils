@@ -7,8 +7,8 @@ if ! ifconfig "$bridgeName" 2> /dev/null; then
 
   echo "$bridgeName: Network bridge is not yet available"
   echo "$bridgeName: Creating network bridge"
-  if sudo sysctl -w net.inet.ip.forwarding=1 > /dev/null && \
-    sudo sysctl -w net.link.ether.inet.proxyall=1 > /dev/null && \
+  if sudo sysctl -w net.link.ether.inet.proxyall=1 > /dev/null && \
+    sudo sysctl -w net.inet.ip.forwarding=1 > /dev/null && \
     # TODO: macOS
     # sudo sysctl -w net.inet.ip.fw.enable=1 > /dev/null && \
     sudo ifconfig "$bridgeName" create && \
