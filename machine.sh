@@ -1,33 +1,36 @@
 #!/bin/sh
 
 if_up_script="qemu-ifup"
+if_down_script="qemu-ifdown"
 if_up_script_full="/etc/$if_up_script"
-if_up_script_backup="/etc/_$if_up_script"
+if_down_script_full="/etc/$if_down_script"
 
-if test -e "$if_up_script_full" && ! test -e "$if_up_script_backup"; then
+qemu_scripts="${if_up_script_full};${if_down_script_full}"
+for script in $qemu_scripts; do
 
-  if mv "$if_up_script_full" "$if_up_script_backup"; then
+  script_backup="${script}_"
+  if test -e "$script" && ! test -e "$script_backup"; then
 
-    echo "$if_up_script_full backed up to: $if_up_script_backup"
+    if mv "$script" "$script_backup"; then
+
+      echo "$script backed up to: $script_backup"
+    else
+
+      echo "$script was not backed up to: $script_backup"
+      exit 1
+    fi
+  fi
+
+  echo "$script: Scrip will be installed"
+  if sudo cp "$script" /etc; then
+
+    echo "$script: Scrip is installed"
   else
 
-    echo "$if_up_script_full was not backed up to: $if_up_script_backup"
+    echo "$script: Scrip was not installed"
     exit 1
   fi
-fi
-
-if ! test -e /etc/qemu-ifup; then
-
-  echo "qemu-ifup: Scrip version for macOS is missing, it will be installed"
-  if sudo cp macOS/qemu-ifup.sh /etc && sudo mv /etc/qemu-ifup.sh /etc/qemu-ifup; then
-
-    echo "qemu-ifup: Scrip version for macOS is installed"
-  else
-
-    echo "qemu-ifup: Scrip version for macOS was not installed"
-    exit 1
-  fi
-fi
+done
 
 iso=$2
 machine=$1
