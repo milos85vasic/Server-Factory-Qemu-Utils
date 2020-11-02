@@ -1,24 +1,17 @@
 #!/bin/bash
 
-echo "Executing /etc/qemu-ifup"
-
+bindBridgeTo="en0"
 bridgeName=$(sh create_and_get_bridge.sh)
-echo "$1: Bringing up for bridged mode"
-if sudo ifconfig "$1" 0.0.0.0 up; then
 
-  echo "$1: Adding to bridge"
-  if sudo ifconfig "$bridgeName" addm "$1"; then
+# if sudo ifconfig "$1" 0.0.0.0 up; then
+if sudo ifconfig "$bridgeName" addm "$bindBridgeTo" addm "$1" && \
+  echo "$bridgeName: bound with: $bindBridgeTo and $1" && \
+  sudo ifconfig "$bridgeName" up; then
 
-    echo "$1: Added to bridge"
-  else
-
-    echo "ERROR: $1 failed to add to bridge"
-    sh delete_bridge.sh
-    exit 1
-  fi
+    echo "$1: is ready"
 else
 
-  echo "ERROR: $1 could not bring up for bridged mode"
+  echo "ERROR: bridge failed to initialize"
   sh delete_bridge.sh
   exit 1
 fi

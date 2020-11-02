@@ -1,7 +1,6 @@
 #!/bin/sh
 
 bridgeName=$1
-bindBridgeTo="en0"
 
 if ! ifconfig "$bridgeName" 2> /dev/null; then
 
@@ -10,12 +9,7 @@ if ! ifconfig "$bridgeName" 2> /dev/null; then
     sudo sysctl -w net.inet.ip.forwarding=1 > /dev/null && \
     # TODO: macOS
     # sudo sysctl -w net.inet.ip.fw.enable=1 > /dev/null && \
-    sudo ifconfig "$bridgeName" create && \
-    echo "Step: Bridge created" && \
-    sudo ifconfig "$bridgeName" addm "$bindBridgeTo" && \
-    echo "Step: Bridge bound to: $bindBridgeTo" && \
-    sudo ifconfig "$bridgeName" up && \
-    echo "Step: Bridge is ready"; then
+    sudo ifconfig "$bridgeName" create; then
 
       echo "$bridgeName: Network bridge created"
   else
