@@ -1,11 +1,13 @@
 #!/bin/sh
 
+dependencies="create_and_get_bridge.sh;create_bridge.sh;create_network.sh;delete_bridge.sh;"
+
 if_up_script="qemu-ifup"
 if_down_script="qemu-ifdown"
 if_up_script_full="/etc/$if_up_script"
 if_down_script_full="/etc/$if_down_script"
 
-qemu_scripts="${if_up_script_full};${if_down_script_full}"
+qemu_scripts="$if_up_script_full;$if_down_script_full;$dependencies"
 for script in $qemu_scripts; do
 
   script_backup="${script}_"
