@@ -1,36 +1,30 @@
 #!/bin/sh
 
-dependencies="create_and_get_bridge.sh;create_bridge.sh;create_network.sh;delete_bridge.sh;"
-
-if_up_script="qemu-ifup"
-if_down_script="qemu-ifdown"
-if_up_script_full="/etc/$if_up_script"
-if_down_script_full="/etc/$if_down_script"
-
 export IFS=";"
-qemu_scripts="$if_up_script_full;$if_down_script_full;$dependencies"
+qemu_scripts="qemu-ifup;qemu-ifdown;create_and_get_bridge.sh;create_bridge.sh;create_network.sh;delete_bridge.sh"
 for script in $qemu_scripts; do
 
-  script_backup="${script}_"
-  if test -e "$script" && ! test -e "$script_backup"; then
+  script_full="/etc/$script"
+  script_backup="${script_full}_"
+  if test -e "$script_full" && ! test -e "$script_backup"; then
 
-    if mv "$script" "$script_backup"; then
+    if sudo mv "$script_full" "$script_backup"; then
 
-      echo "$script backed up to: $script_backup"
+      echo "$script_full: backed up to: $script_backup"
     else
 
-      echo "$script was not backed up to: $script_backup"
+      echo "ERROR: $script_full was not backed up to: $script_backup"
       exit 1
     fi
   fi
 
-  echo "$script: Scrip will be installed"
-  if sudo cp "$script" /etc; then
+  echo "$script_full: Scrip will be installed"
+  if sudo cp "$script_full" /etc; then
 
-    echo "$script: Scrip is installed"
+    echo "$script_full: Scrip is installed"
   else
 
-    echo "$script: Scrip was not installed"
+    echo "ERROR: $script scrip was not installed"
     exit 1
   fi
 done
