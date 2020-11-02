@@ -19,12 +19,12 @@ for script in $qemu_scripts; do
     fi
   fi
 
-  if sudo cp "$script_full" /etc; then
+  if sudo cp "$script" /etc; then
 
     echo "$script_full: Scrip is installed"
   else
 
-    echo "ERROR: $script scrip was not installed"
+    echo "ERROR: $script_full scrip was not installed"
     exit 1
   fi
 done
