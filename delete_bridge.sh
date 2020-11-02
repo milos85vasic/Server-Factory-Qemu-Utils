@@ -24,7 +24,7 @@ else
 fi
 
 export IFS=";"
-qemu_scripts="qemu-ifup;qemu-ifdown;create_and_get_bridge.sh;create_bridge.sh;create_network.sh;delete_bridge.sh;"
+qemu_scripts="qemu-ifup;qemu-ifdown;create_and_get_bridge.sh;create_bridge.sh;delete_bridge.sh;"
 for script in $qemu_scripts; do
 
   script_full="/etc/$script"
