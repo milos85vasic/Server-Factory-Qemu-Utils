@@ -3,11 +3,12 @@
 echo "Executing /etc/qemu-ifup"
 if sh create_network.sh; then
 
+  bridgeName=$(sh create_and_get_bridge.sh)
   echo "$1: Bringing up for bridged mode"
-  if ifconfig "$1" 0.0.0.0 up; then
+  if sudo ifconfig "$1" 0.0.0.0 up; then
 
     echo "$1: Adding to bridge"
-    if ifconfig bridge0 addm en0 addm "$1"; then
+    if sudo ifconfig "$bridgeName" addm en0 addm "$1"; then
 
       echo "$1: Added to bridge"
     else
