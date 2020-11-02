@@ -6,6 +6,7 @@ for script in $qemu_scripts; do
 
   script_full="/etc/$script"
   script_backup="${script_full}_"
+
   if test -e "$script_full" && ! test -e "$script_backup"; then
 
     if sudo mv "$script_full" "$script_backup"; then
@@ -18,7 +19,6 @@ for script in $qemu_scripts; do
     fi
   fi
 
-  echo "$script_full: Scrip will be installed"
   if sudo cp "$script_full" /etc; then
 
     echo "$script_full: Scrip is installed"

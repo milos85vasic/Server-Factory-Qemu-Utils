@@ -29,6 +29,7 @@ for script in $qemu_scripts; do
 
   script_full="/etc/$script"
   script_backup="${script_full}_"
+
   if test -e "$script_full"; then
     if sudo rm -f "$script_full"; then
 
