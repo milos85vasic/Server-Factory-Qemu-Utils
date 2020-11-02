@@ -23,36 +23,30 @@ else
   echo "No network bridge to delete"
 fi
 
-dependencies="create_and_get_bridge.sh;create_bridge.sh;create_network.sh;delete_bridge.sh;"
-
-if_up_script="qemu-ifup"
-if_down_script="qemu-ifdown"
-if_up_script_full="/etc/$if_up_script"
-if_down_script_full="/etc/$if_down_script"
-
 export IFS=";"
-qemu_scripts="$if_up_script_full;$if_down_script_full;$dependencies"
+qemu_scripts="qemu-ifup;qemu-ifdown;create_and_get_bridge.sh;create_bridge.sh;create_network.sh;delete_bridge.sh;"
 for script in $qemu_scripts; do
 
-  script_backup="${script}_"
-  if test -e "$script"; then
-    if rm -f "$script"; then
+  script_full="/etc/$script"
+  script_backup="${script_full}_"
+  if test -e "$script_full"; then
+    if sudo rm -f "$script_full"; then
 
-      echo "$script: Is removed"
+      echo "$script_full: Is removed"
     else
 
-      echo "ERROR: $script was not removed"
+      echo "ERROR: $script_full was not removed"
       exit 1
     fi
   fi
 
   if test -e "$script_backup"; then
-    if mv "$script_backup" "$script"; then
+    if sudo mv "$script_backup" "$script_full"; then
 
-      echo "$script_backup: restored to: $script"
+      echo "$script_backup: restored to: $script_full"
     else
 
-      echo "ERROR: $script_backup was not restored to: $script"
+      echo "ERROR: $script_backup was not restored to: $script_full"
       exit 1
     fi
   fi
