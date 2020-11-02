@@ -6,7 +6,7 @@ script_path_full="$script_path/server_factory_bridge_name.sh"
 if test -e "$script_path_full"; then
 
   bridge=$(sh "$script_path_full")
-  if sh create_bridge.sh "$bridge" 2> /dev/null; then
+  if sh create_bridge.sh "$bridge" > /dev/null; then
 
     echo "$bridge"
     exit 0
@@ -23,7 +23,7 @@ else
     bridge="bridge$ITER"
     if ! ifconfig "$bridge" 2> /dev/null; then
 
-      if sh create_bridge.sh "$bridge" 2> /dev/null; then
+      if sh create_bridge.sh "$bridge" > /dev/null; then
 
         echo """
         #!/bin/sh
