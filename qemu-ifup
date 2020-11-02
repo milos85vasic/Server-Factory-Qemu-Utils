@@ -1,31 +1,24 @@
 #!/bin/bash
 
 echo "Executing /etc/qemu-ifup"
-if sh create_network.sh; then
 
-  bridgeName=$(sh create_and_get_bridge.sh)
-  echo "$1: Bringing up for bridged mode"
-  if sudo ifconfig "$1" 0.0.0.0 up; then
+bridgeName=$(sh create_and_get_bridge.sh)
+echo "$1: Bringing up for bridged mode"
+if sudo ifconfig "$1" 0.0.0.0 up; then
 
-    echo "$1: Adding to bridge"
-    if sudo ifconfig "$bridgeName" addm "$1"; then
+  echo "$1: Adding to bridge"
+  if sudo ifconfig "$bridgeName" addm "$1"; then
 
-      echo "$1: Added to bridge"
-    else
-
-      echo "ERROR: $1 failed to add to bridge"
-      sh delete_bridge.sh
-      exit 1
-    fi
+    echo "$1: Added to bridge"
   else
 
-    echo "ERROR: $1 could not bring up for bridged mode"
+    echo "ERROR: $1 failed to add to bridge"
     sh delete_bridge.sh
     exit 1
   fi
 else
 
-  echo "ERROR: Could not bring up the network"
+  echo "ERROR: $1 could not bring up for bridged mode"
   sh delete_bridge.sh
   exit 1
 fi
