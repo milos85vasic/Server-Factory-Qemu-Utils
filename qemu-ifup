@@ -13,15 +13,18 @@ if sh create_network.sh; then
     else
 
       echo "ERROR: $1 failed to add to bridge"
+      sh delete_bridge.sh
       exit 1
     fi
   else
 
     echo "ERROR: $1 could not bring up for bridged mode"
+    sh delete_bridge.sh
     exit 1
   fi
 else
 
   echo "ERROR: Could not bring up the network"
+  sh delete_bridge.sh
   exit 1
 fi
