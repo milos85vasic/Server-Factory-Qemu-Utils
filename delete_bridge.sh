@@ -30,6 +30,7 @@ if_down_script="qemu-ifdown"
 if_up_script_full="/etc/$if_up_script"
 if_down_script_full="/etc/$if_down_script"
 
+export IFS=";"
 qemu_scripts="$if_up_script_full;$if_down_script_full;$dependencies"
 for script in $qemu_scripts; do
 
