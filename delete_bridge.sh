@@ -1,11 +1,12 @@
 #!/bin/sh
 
-script_path="/usr/local/bin"
-script_path_full="$script_path/server_factory_bridge_name.sh"
+tap=$1
+script_path="/tmp"
+script_path_full="$script_path/server_factory_bridge_name_$tap.sh"
 
 if test -e "$script_path_full"; then
 
-  bridge=$(sh $script_path_full)
+  bridge=$(sh "$script_path_full")
   if sudo sysctl -w net.inet.ip.forwarding=0 > /dev/null && \
     sudo sysctl -w net.link.ether.inet.proxyall=0 > /dev/null && \
     # TODO: macOS:

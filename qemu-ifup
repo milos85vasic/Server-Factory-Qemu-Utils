@@ -1,10 +1,8 @@
 #!/bin/bash
 
 bindBridgeTo="en0"
-bridgeName=$(sh create_and_get_bridge.sh)
-echo "$bridgeName: Ready"
-
-# if sudo ifconfig "$1" 0.0.0.0 up; then
+bridgeName=$(sh create_and_get_bridge.sh "$1")
+echo "$bridgeName: Ready for $1"
 
 if sudo ifconfig "$bridgeName" addm "$bindBridgeTo" addm "$1" &&
   echo "$bridgeName: bound with: $bindBridgeTo and $1" &&
@@ -14,6 +12,6 @@ if sudo ifconfig "$bridgeName" addm "$bindBridgeTo" addm "$1" &&
 else
 
   echo "ERROR: $bridgeName failed to initialize"
-  sh delete_bridge.sh
+  sh delete_bridge.sh "$1"
   exit 1
 fi

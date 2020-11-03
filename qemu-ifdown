@@ -1,9 +1,9 @@
 #!/bin/bash
 
-if sh delete_bridge.sh; then
+if sh delete_bridge.sh "$1"; then
 
-  echo "Bridge has been destroyed"
+  echo "Bridge has been destroyed for: '$1'"
 else
 
-  echo "ERROR: Bridge was not destroyed"
+  echo "ERROR: Bridge was not destroyed for: $1"
 fi
