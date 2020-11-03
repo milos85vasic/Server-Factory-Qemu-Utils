@@ -29,20 +29,18 @@ for script in $qemu_scripts; do
   fi
 done
 
+tap=$(sh create_and_get_tap.sh)
 iso=$2
 machine=$1
 display=$(sh get_display.sh)
 acceleration=$(sh get_acceleration.sh)
 disk=$(sh create_disk.sh "$machine" 20)
-#tapName=$(sh create_and_get_tap.sh)
-#bridgeName=$(sh create_and_get_bridge.sh)
 
-#  ip link set "$tapName" master "$bridgeName"
-  sudo qemu-system-x86_64 -accel "$acceleration" -cpu host -m 2048 -smp 2 \
-    -display "$display",show-cursor=on -usb -device usb-tablet -vga virtio \
-    -drive file="$disk,format=qcow2,if=virtio" \
-    -net nic -net tap,ifname=tap0 \
-    -cdrom "$iso"
+sudo qemu-system-x86_64 -accel "$acceleration" -cpu host -m 2048 -smp 2 \
+  -display "$display",show-cursor=on -usb -device usb-tablet -vga virtio \
+  -drive file="$disk,format=qcow2,if=virtio" \
+  -net nic -net tap,ifname="$tap" \
+  -cdrom "$iso"
 
-# -net nic -net tap,ifname=tap0 \
-#-netdev tap,id=tap2 -device rtl8139,netdev=tap2 \
+# -net nic -net tap,ifname="$tap" \
+#-netdev tap,id="$tap" -device rtl8139,netdev="$tap" \
