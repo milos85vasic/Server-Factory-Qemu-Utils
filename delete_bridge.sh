@@ -4,6 +4,8 @@ tap=$1
 script_path="/tmp"
 script_path_full="$script_path/server_factory_bridge_name_$tap.sh"
 
+count=$(find "$script_path" -type f -name "$script_path/server_factory_bridge_name_*.sh" | wc -l | xargs)
+
 if test -e "$script_path_full"; then
 
   bridge=$(sh "$script_path_full")
@@ -24,32 +26,26 @@ else
   echo "No network bridge to delete"
 fi
 
-export IFS=";"
-qemu_scripts="qemu-ifup;qemu-ifdown;create_and_get_bridge.sh;create_bridge.sh;delete_bridge.sh;"
-for script in $qemu_scripts; do
+if [ "$count" = "1" ] || [ "$count" = "0"  ]; then
 
-  script_full="/etc/$script"
-  script_backup="${script_full}_"
+  qemu_scripts="qemu-ifup;qemu-ifdown;create_and_get_bridge.sh;create_bridge.sh;delete_bridge.sh;"
 
-  if test -e "$script_full"; then
-    if sudo rm -f "$script_full"; then
+  export IFS=";"
+  for script in $qemu_scripts; do
 
-      echo "$script_full: Is removed"
-    else
+    script_full="/etc/$script"
+    if test -e "$script_full"; then
+      if sudo rm -f "$script_full"; then
 
-      echo "ERROR: $script_full was not removed"
-      exit 1
+        echo "$script_full: Is removed"
+      else
+
+        echo "ERROR: $script_full was not removed"
+        exit 1
+      fi
     fi
-  fi
+  done
+else
 
-  if test -e "$script_backup"; then
-    if sudo mv "$script_backup" "$script_full"; then
-
-      echo "$script_backup: restored to: $script_full"
-    else
-
-      echo "ERROR: $script_backup was not restored to: $script_full"
-      exit 1
-    fi
-  fi
-done
+  echo "Removing script is skipped, qemu instances running: $count"
+fi

@@ -5,27 +5,19 @@ qemu_scripts="qemu-ifup;qemu-ifdown;create_and_get_bridge.sh;create_bridge.sh;de
 for script in $qemu_scripts; do
 
   script_full="/etc/$script"
-  script_backup="${script_full}_"
+  if test -e "$script_full"; then
 
-  if test -e "$script_full" && ! test -e "$script_backup"; then
-
-    if sudo mv "$script_full" "$script_backup"; then
-
-      echo "$script_full: backed up to: $script_backup"
-    else
-
-      echo "ERROR: $script_full was not backed up to: $script_backup"
-      exit 1
-    fi
-  fi
-
-  if sudo cp "$script" /etc; then
-
-    echo "$script_full: Scrip is installed"
+    echo "$script_full: Scrip is already available"
   else
 
-    echo "ERROR: $script_full scrip was not installed"
-    exit 1
+    if sudo cp "$script" /etc; then
+
+      echo "$script_full: Scrip is installed"
+    else
+
+      echo "ERROR: $script_full scrip was not installed"
+      exit 1
+    fi
   fi
 done
 
