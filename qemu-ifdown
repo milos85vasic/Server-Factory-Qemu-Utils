@@ -1,9 +1,10 @@
 #!/bin/bash
 
-if sh delete_bridge.sh; then
+tap=$1
+if sh delete_bridge.sh "$tap"; then
 
-  echo "Bridge has been destroyed for: '$1'"
+  echo "Completed"
 else
 
-  echo "ERROR: Bridge was not destroyed for: '$1'"
+  echo "ERROR: Failed to complete with success"
 fi

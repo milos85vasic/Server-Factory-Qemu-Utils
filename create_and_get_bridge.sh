@@ -1,5 +1,6 @@
 #!/bin/sh
 
+tap=$1
 script_path="/tmp"
 script_path_full="$script_path/server_factory_bridge.sh"
 
@@ -17,7 +18,7 @@ else
     bridge="bridge$ITER"
     if ! ifconfig "$bridge" >/dev/null 2>&1; then
 
-      if sh create_bridge.sh "$bridge" > /dev/null; then
+      if sh create_bridge.sh "$bridge" "$tap" >/dev/null 2>&1; then
 
         echo """
         #!/bin/sh
@@ -29,11 +30,11 @@ else
       else
 
         echo "ERROR: Could not create bridge [2]"
-        exit 1
+        sh fail_and_cleanup.sh "$tap"
       fi
     fi
   done
 fi
 
 echo "ERROR: Could not obtain bridge candidate"
-exit 1
+sh fail_and_cleanup.sh "$tap"

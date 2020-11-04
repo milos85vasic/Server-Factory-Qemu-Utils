@@ -1,17 +1,30 @@
 #!/bin/sh
 
+tap=$1
+log=$(sh get_machine_log_name.sh "$tap")
+
+if test -e "$log"; then
+  if sudo rm -f "$log"; then
+
+    echo "Log removed: $log"
+  else
+
+    echo "WARNING: Log not removed: $log"
+  fi
+fi
+
 script_path="/tmp"
 script_path_full="$script_path/server_factory_bridge.sh"
 
-count=$(find "$script_path" -type f -name "$script_path/server_factory_bridge_name_*.sh" | wc -l | xargs)
+count=$(sh get_running_machines_count.sh)
 
 if test -e "$script_path_full"; then
 
   bridge=$(sh "$script_path_full")
-  if sudo sysctl -w net.inet.ip.forwarding=0 > /dev/null && \
-    sudo sysctl -w net.link.ether.inet.proxyall=0 > /dev/null && \
+  if sudo sysctl -w net.inet.ip.forwarding=0 >/dev/null 2>&1 && \
+    sudo sysctl -w net.link.ether.inet.proxyall=0 >/dev/null 2>&1 && \
     # TODO: macOS:
-    # sudo sysctl -w net.inet.ip.fw.enable=1 > /dev/null && \
+    # sudo sysctl -w net.inet.ip.fw.enable=1 >/dev/null 2>&1 \
     sudo ifconfig "$bridge" destroy && \
     sudo rm -f "$script_path_full"; then
 
@@ -40,7 +53,7 @@ if [ "$count" = "1" ] || [ "$count" = "0"  ]; then
       else
 
         echo "ERROR: $script_full was not removed"
-        exit 1
+        sh fail_and_cleanup.sh "$tap"
       fi
     fi
   done

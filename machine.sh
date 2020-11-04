@@ -1,5 +1,7 @@
 #!/bin/sh
 
+tap=$(sh create_and_get_tap.sh)
+
 export IFS=";"
 qemu_scripts=$(sh get_dependencies.sh)
 for script in $qemu_scripts; do
@@ -16,17 +18,16 @@ for script in $qemu_scripts; do
     else
 
       echo "ERROR: $script_full scrip was not installed"
-      exit 1
+      sh fail_and_cleanup.sh "$tap"
     fi
   fi
 done
 
-tap=$(sh create_and_get_tap.sh)
 iso=$2
 machine=$1
 display=$(sh get_display.sh)
 acceleration=$(sh get_acceleration.sh)
-disk=$(sh create_disk.sh "$machine" 20)
+disk=$(sh create_disk.sh "$machine" 20 "$tap")
 
 sudo qemu-system-x86_64 -accel "$acceleration" -cpu host -m 2048 -smp 2 \
   -display "$display",show-cursor=on -usb -device usb-tablet -vga virtio \
@@ -34,5 +35,3 @@ sudo qemu-system-x86_64 -accel "$acceleration" -cpu host -m 2048 -smp 2 \
   -net nic -net tap,ifname="$tap" \
   -cdrom "$iso"
 
-# -net nic -net tap,ifname="$tap" \
-#-netdev tap,id="$tap" -device rtl8139,netdev="$tap" \
