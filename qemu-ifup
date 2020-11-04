@@ -12,6 +12,6 @@ if sudo ifconfig "$bridgeName" addm "$bindBridgeTo" addm "$1" &&
 else
 
   echo "ERROR: $bridgeName failed to initialize"
-  sh delete_bridge.sh "$1"
+  sh delete_bridge.sh
   exit 1
 fi

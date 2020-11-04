@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if sh delete_bridge.sh "$1"; then
+if sh delete_bridge.sh; then
 
   echo "Bridge has been destroyed for: '$1'"
 else

@@ -1,6 +1,5 @@
 #!/bin/sh
 
-tap=$1
 script_path="/tmp"
 script_path_full="$script_path/server_factory_bridge.sh"
 
@@ -28,7 +27,7 @@ fi
 
 if [ "$count" = "1" ] || [ "$count" = "0"  ]; then
 
-  qemu_scripts="qemu-ifup;qemu-ifdown;create_and_get_bridge.sh;create_bridge.sh;delete_bridge.sh;"
+  qemu_scripts=$(sh get_dependencies.sh)
 
   export IFS=";"
   for script in $qemu_scripts; do
