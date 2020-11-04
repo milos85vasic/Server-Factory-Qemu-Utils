@@ -18,7 +18,8 @@ if test -e "$script_path_full"; then
   fi
 else
 
-  for ITER in 1 .. 100
+  END=100
+  for ITER in $(seq 1 $END);
   do
 
     bridge="bridge$ITER"

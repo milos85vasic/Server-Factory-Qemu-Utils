@@ -1,6 +1,7 @@
 #!/bin/sh
 
-for ITER in 0 .. 100
+END=100
+for ITER in $(seq 0 $END);
 do
 
   tap="tap$ITER"
