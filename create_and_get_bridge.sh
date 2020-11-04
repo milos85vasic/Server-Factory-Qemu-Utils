@@ -19,11 +19,11 @@ if test -e "$script_path_full"; then
 else
 
   END=100
-  for ITER in $(seq 1 $END);
+  for ITER in $(seq 0 $END);
   do
 
     bridge="bridge$ITER"
-    if ! ifconfig "$bridge" 2> /dev/null; then
+    if ! ifconfig "$bridge" >/dev/null 2>&1; then
 
       if sh create_bridge.sh "$bridge" > /dev/null; then
 

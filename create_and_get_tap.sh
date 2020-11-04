@@ -5,7 +5,7 @@ for ITER in $(seq 0 $END);
 do
 
   tap="tap$ITER"
-  if ! ifconfig "$tap" 2> /dev/null; then
+  if ! ifconfig "$tap" >/dev/null 2>&1; then
 
     echo "$tap"
     exit 0

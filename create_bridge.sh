@@ -2,7 +2,7 @@
 
 bridgeName=$1
 
-if ! ifconfig "$bridgeName" 2> /dev/null; then
+if ! ifconfig "$bridgeName" >/dev/null 2>&1; then
 
   echo "$bridgeName: Creating network bridge"
   if sudo sysctl -w net.link.ether.inet.proxyall=1 > /dev/null && \
