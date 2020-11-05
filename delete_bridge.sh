@@ -60,5 +60,5 @@ if [ "$count" = "1" ] || [ "$count" = "0"  ]; then
   done
 else
 
-  echo "Removing script is skipped, qemu instances running: $count"
+  echo "Removing script is skipped, qemu instances still running"
 fi
