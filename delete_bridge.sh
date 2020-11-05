@@ -3,7 +3,13 @@
 tap=$1
 log=$(sh get_machine_log_name.sh "$tap")
 
-if test -e "$log"; then
+count=$(sh get_running_machines_count.sh)
+echo "Running qemu machines detected: $count"
+
+script_path="/tmp"
+script_path_full="$script_path/server_factory_bridge.sh"
+
+if sudo test -e "$log"; then
   if sudo rm -f "$log"; then
 
     echo "Log removed: $log"
@@ -13,32 +19,27 @@ if test -e "$log"; then
   fi
 fi
 
-script_path="/tmp"
-script_path_full="$script_path/server_factory_bridge.sh"
+if [ "$count" = "1" ] || [ "$count" = "0"  ]; then
 
-count=$(sh get_running_machines_count.sh)
+  if test -e "$script_path_full"; then
 
-if test -e "$script_path_full"; then
+    bridge=$(sh "$script_path_full")
+    if sudo sysctl -w net.inet.ip.forwarding=0 >/dev/null 2>&1 && \
+      sudo sysctl -w net.link.ether.inet.proxyall=0 >/dev/null 2>&1 && \
+      # TODO: macOS:
+      # sudo sysctl -w net.inet.ip.fw.enable=1 >/dev/null 2>&1 \
+      sudo ifconfig "$bridge" destroy && \
+      sudo rm -f "$script_path_full"; then
 
-  bridge=$(sh "$script_path_full")
-  if sudo sysctl -w net.inet.ip.forwarding=0 >/dev/null 2>&1 && \
-    sudo sysctl -w net.link.ether.inet.proxyall=0 >/dev/null 2>&1 && \
-    # TODO: macOS:
-    # sudo sysctl -w net.inet.ip.fw.enable=1 >/dev/null 2>&1 \
-    sudo ifconfig "$bridge" destroy && \
-    sudo rm -f "$script_path_full"; then
+        echo "$bridge: Network bridge deleted"
+    else
 
-      echo "$bridge: Network bridge deleted"
+      echo "ERROR: $bridge Network bridge was not deleted"
+    fi
   else
 
-    echo "ERROR: $bridge Network bridge was not deleted"
+    echo "No network bridge to delete"
   fi
-else
-
-  echo "No network bridge to delete"
-fi
-
-if [ "$count" = "1" ] || [ "$count" = "0"  ]; then
 
   qemu_scripts=$(sh get_dependencies.sh)
 

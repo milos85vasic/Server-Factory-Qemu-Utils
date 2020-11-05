@@ -1,5 +1,8 @@
 #!/bin/sh
 
-script_path="/tmp"
-count=$(find "$script_path" -type f -name "$script_path/qemu_machine_*.log" | wc -l | xargs)
+count="0"
+if sudo ls -l /tmp/qemu_machine_*.log >/dev/null 2>&1; then
+
+  count=$(sudo ls -l /tmp/qemu_machine_*.log | wc -l | xargs)
+fi
 echo "$count"
