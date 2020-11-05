@@ -4,7 +4,13 @@ tap=$1
 log=$(sh get_machine_log_name.sh "$tap")
 
 count=$(sh get_running_machines_count.sh)
-echo "Running qemu machines detected: $count"
+if [ "$count" = "0"  ]; then
+
+  echo "No running qemu machines detected"
+else
+
+  echo "Running qemu machines detected: $count"
+fi
 
 script_path="/tmp"
 script_path_full="$script_path/server_factory_bridge.sh"
