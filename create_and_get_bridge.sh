@@ -18,13 +18,14 @@ else
     bridge="bridge$ITER"
     if ! ifconfig "$bridge" >/dev/null 2>&1; then
 
-      if sh create_bridge.sh "$bridge" "$tap" >/dev/null 2>&1; then
+      if sh create_bridge.sh "$bridge" "$tap" >/dev/null 2>&1 && \
+      echo """
+      #!/bin/sh
 
-        echo """
-        #!/bin/sh
+      echo $bridge
+      """ | tee "$script_path_full" >/dev/null 2>&1 && \
+      chmod 750 "$script_path_full"; then
 
-        echo $bridge
-        """ > "$script_path_full" && chmod 750 "$script_path_full"
         echo "$bridge"
         exit 0
       else
