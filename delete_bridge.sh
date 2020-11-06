@@ -32,8 +32,7 @@ if [ "$count" = "1" ] || [ "$count" = "0"  ]; then
     bridge=$(sh "$script_path_full")
     if sudo sysctl -w net.inet.ip.forwarding=0 >/dev/null 2>&1 && \
       sudo sysctl -w net.link.ether.inet.proxyall=0 >/dev/null 2>&1 && \
-      # TODO: macOS:
-      # sudo sysctl -w net.inet.ip.fw.enable=1 >/dev/null 2>&1 \
+      if ! sh is_macos.sh; then sudo sysctl -w net.inet.ip.fw.enable=1 >/dev/null 2>&1; fi && \
       sudo ifconfig "$bridge" destroy && \
       sudo rm -f "$script_path_full"; then
 

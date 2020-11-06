@@ -1,6 +1,6 @@
 #!/bin/sh
 
-if uname | grep -i "darwin" >/dev/null 2>&1; then
+if sh is_macos.sh; then
 
   echo "cocoa"
 else

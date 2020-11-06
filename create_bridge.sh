@@ -8,8 +8,7 @@ if ! ifconfig "$bridgeName" >/dev/null 2>&1; then
   echo "$bridgeName: Creating network bridge"
   if sudo sysctl -w net.link.ether.inet.proxyall=1 >/dev/null 2>&1 && \
     sudo sysctl -w net.inet.ip.forwarding=1 >/dev/null 2>&1 && \
-    # TODO: macOS
-    # sudo sysctl -w net.inet.ip.fw.enable=1 >/dev/null 2>&1 && \
+    if ! sh is_macos.sh; then sudo sysctl -w net.inet.ip.fw.enable=1 >/dev/null 2>&1; fi && \
     sudo ifconfig "$bridgeName" create && \
     sh bind_interfaces_to_bridge.sh "$bridgeName" "$tap"; then
 
