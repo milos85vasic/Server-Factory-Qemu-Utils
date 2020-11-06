@@ -1,12 +1,13 @@
 #!/bin/sh
 
 tap=$1
-script_path="/tmp"
-script_path_full="$script_path/qemu_bridge.sh"
+shared_Scripts_path="/tmp"
+bridge_script_path="$shared_Scripts_path/qemu_bridge.sh"
+scripts_path=$(sh "$shared_Scripts_path/qemu_scripts_path.sh")
 
-if test -e "$script_path_full"; then
+if test -e "$bridge_script_path"; then
 
-  bridge=$(sh "$script_path_full")
+  bridge=$(sh "$bridge_script_path")
   echo "$bridge"
   exit 0
 else
@@ -18,24 +19,24 @@ else
     bridge="bridge$ITER"
     if ! ifconfig "$bridge" >/dev/null 2>&1; then
 
-      if sh create_bridge.sh "$bridge" "$tap" >/dev/null 2>&1 && \
+      if sh "$scripts_path/create_bridge.sh" "$bridge" "$tap" >/dev/null 2>&1 && \
       echo """
       #!/bin/sh
 
       echo $bridge
-      """ | tee "$script_path_full" >/dev/null 2>&1 && \
-      chmod 750 "$script_path_full"; then
+      """ | tee "$bridge_script_path" >/dev/null 2>&1 && \
+      chmod 750 "$bridge_script_path"; then
 
         echo "$bridge"
         exit 0
       else
 
         echo "ERROR: Could not create bridge [2]"
-        sh fail_and_cleanup.sh "$tap"
+        sh "$scripts_path/fail_and_cleanup.sh" "$tap"
       fi
     fi
   done
 fi
 
 echo "ERROR: Could not obtain bridge candidate"
-sh fail_and_cleanup.sh "$tap"
+sh "$scripts_path/fail_and_cleanup.sh" "$tap"

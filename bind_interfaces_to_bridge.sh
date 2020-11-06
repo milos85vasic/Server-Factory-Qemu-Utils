@@ -2,7 +2,8 @@
 
 tap=$2
 bridgeName=$1
-log=$(sh get_machine_log_name.sh "$tap")
+scripts_path=$(sh "/tmp/qemu_scripts_path.sh")
+log=$(sh "$scripts_path/get_machine_log_name.sh" "$tap")
 
 echo "Binding interfaces" | sudo tee -a "$log"
 interfaces="en0;en1;en2;en3;en4;en5;eth0;eth1;eth2;eth3;eth4;eth5"

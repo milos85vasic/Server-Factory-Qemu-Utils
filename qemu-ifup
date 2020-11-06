@@ -1,7 +1,9 @@
 #!/bin/bash
 
 tap=$1
-bridgeName=$(sh create_and_get_bridge.sh "$tap")
+scripts_path=$(sh "/tmp/qemu_scripts_path.sh")
+bridgeName=$(sh "$scripts_path/create_and_get_bridge.sh" "$tap")
+
 echo "$bridgeName: Ready for $tap"
 
 if sudo ifconfig "$bridgeName" addm "$tap" && \
@@ -11,5 +13,5 @@ if sudo ifconfig "$bridgeName" addm "$tap" && \
 else
 
   echo "ERROR: $bridgeName failed to initialize"
-  sh fail_and_cleanup.sh "$tap"
+  sh "$scripts_path/fail_and_cleanup.sh" "$tap"
 fi
