@@ -4,7 +4,8 @@ iso=$2
 machine=$1
 
 echo "Checking system image availability"
-image="$machine/disk.qcow2"
+disk="disk.qcow2"
+image="$machine/$disk"
 if test -e "$image"; then
 
   echo "$image: Is available"
@@ -20,15 +21,33 @@ else
     image_location=$(cat "$image_location_settings")
     if test -e "$image_location"; then
 
-      echo "Images location path: $image_location"
+      echo "Images location search path: $image_location"
       if ! test -e "$image"; then
 
-        if ! mkdir -p "$image"; then
+        if ! mkdir -p "$machine"; then
 
-          echo "ERROR: $image directory could not be created"
+          echo "ERROR: $machine directory could not be created"
           exit 1
         fi
       fi
+
+      system=$(basename "$machine")
+      obtain_image="$image_location/$system"
+      obtain_image_disk="$obtain_image/$disk"
+
+      echo "Looking for image: $obtain_image"
+      if test -e "$obtain_image_disk"; then
+
+        echo "Found: $obtain_image_disk"
+        echo "Deploying to: $machine"
+      else
+
+        echo "WARNING: $obtain_image_disk has not been found"
+        echo "Downloading: $system into $obtain_image"
+        # TODO: Download
+      fi
+
+      # TODO: Deploy
     else
 
       echo "ERROR: $image_location images location path does not exist"
