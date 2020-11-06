@@ -21,14 +21,23 @@ else
     if test -e "$image_location"; then
 
       echo "Images location path: $image_location"
+      if ! test -e "$image"; then
+
+        if ! mkdir -p "$image"; then
+
+          echo "ERROR: $image directory could not be created"
+          exit 1
+        fi
+      fi
     else
 
-      echo "Images location path does not exist: $image_location"
+      echo "ERROR: $image_location images location path does not exist"
       exit 1
     fi
   else
 
-    echo "$image_location_settings: Not available, please create file and add absolute path to images to it"
+    exit 1
+    echo "ERROR: $image_location_settings not available, please create file and add absolute path to images to it"
   fi
 fi
 
