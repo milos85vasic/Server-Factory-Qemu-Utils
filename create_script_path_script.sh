@@ -21,7 +21,7 @@ if echo """
 #!/bin/sh
 
 echo $current_script_path
-""" | tee "$script_path_full" && chmod 750 "$script_path_full"; then
+""" | tee "$script_path_full" >/dev/null 2>&1 && chmod 750 "$script_path_full"; then
 
   echo "Script installed: $script_path_full"
 else
