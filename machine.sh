@@ -1,6 +1,7 @@
 #!/bin/sh
 
 tap=$(sh create_and_get_tap.sh)
+sh create_script_path_script.sh "$tap"
 
 export IFS=";"
 qemu_scripts=$(sh get_dependencies.sh)
@@ -34,4 +35,3 @@ sudo qemu-system-x86_64 -accel "$acceleration" -cpu host -m 2048 -smp 2 \
   -drive file="$disk,format=qcow2,if=virtio" \
   -net nic -net tap,ifname="$tap" \
   -cdrom "$iso"
-
