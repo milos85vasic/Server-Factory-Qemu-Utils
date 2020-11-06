@@ -13,15 +13,22 @@ else
   echo "$image: Is not available"
   echo "$image: Obtaining"
 
-  image_location_properties="image_location.properties"
-  image_provider_properties="image_provider.properties"
-  if test -e "$image_location_properties"; then
+  image_location_settings="image_location.settings"
+  image_provider_settings="image_provider.settings"
+  if test -e "$image_location_settings"; then
 
-    image_location=$(cat "$image_location_properties")
-    echo "Images location: $image_location"
+    image_location=$(cat "$image_location_settings")
+    if test -e "$image_location"; then
+
+      echo "Images location path: $image_location"
+    else
+
+      echo "Images location path does not exist: $image_location"
+      exit 1
+    fi
   else
 
-    echo "image_location.properties: Not available, please create file and add absolute path to images to it"
+    echo "$image_location_settings: Not available, please create file and add absolute path to images to it"
   fi
 fi
 
