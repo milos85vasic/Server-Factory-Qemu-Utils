@@ -54,14 +54,14 @@ else
 
             echo "Image downloaded"
             echo "Extracting image into: $obtain_image"
-            if tar -xf archive.tar.gz -C /home/linuxize/files; then
+            if tar -xf "$download_destination/$system.tar.gz" -C /home/linuxize/files; then
 
               echo "Image is ready"
             else
 
               echo "ERROR: Could not extract image"
               exit 1
-            fir
+            fi
           else
 
             echo "ERROR: Image download failed"
