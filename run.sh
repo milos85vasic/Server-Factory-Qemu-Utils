@@ -48,7 +48,7 @@ else
         if test -e "$image_provider_settings"; then
 
           provider_url=$(cat "$image_provider_settings")
-          url="$provider_url/$system.tar.gz"
+          url="$provider_url/Images/Qemu/$system.tar.gz"
           download_destination="/tmp"
           if wget -P "$download_destination" "$url"; then
 

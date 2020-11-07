@@ -12,16 +12,17 @@ if test -e "$image_location_settings"; then
   else
 
       find "$source" ! -path "$source" ! -path '*/\.*' \
-        -maxdepth 1 -type d -exec sh compress.sh {} \;
+        -maxdepth 1 -type d -exec sh compress.sh {} \; && \
+        mv "$source"/*.tar.gz "$source"/../Compressed/
 
       if test -e "$image_sync_script"; then
 
-        if sh "$image_sync_script" "$source"; then
+        if sh "$image_sync_script" "$source/../Compressed/" "Images/Qemu"; then
 
             echo "Sync. completed"
         else
 
-            echo "Failed to synchronize drive."
+            echo "Failed to synchronize images"
             exit 1
         fi
       else
