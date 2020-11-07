@@ -44,7 +44,25 @@ else
 
         echo "WARNING: $obtain_image_disk has not been found"
         echo "Downloading: $system into $obtain_image"
-        # TODO: Download
+
+        if test -e "$image_provider_settings"; then
+
+          provider_url=$(cat "$image_provider_settings")
+          url="$provider_url/$system.gz"
+          download_destination="/tmp"
+          if wget -P "$download_destination" "$url"; then
+
+            echo "Image downloaded"
+          else
+
+            echo "ERROR: Image download failed"
+            exit 1
+          fi
+        else
+
+          exit 1
+          echo "ERROR: $image_provider_settings not available, please create file and add images server url to it"
+        fi
       fi
 
       # TODO: Deploy
