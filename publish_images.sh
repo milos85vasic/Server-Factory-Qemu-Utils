@@ -11,7 +11,9 @@ if test -e "$image_location_settings"; then
       echo "Synchronization path unavailable: $source"
   else
 
-      find "$source" ! -path "$source" ! -path '*/\.*' -maxdepth 1 -exec tar -cjf {}.tar.gz -C {} . \; >/dev/null 2>&1
+      find "$source" ! -path "$source" ! -path '*/\.*' \
+        -maxdepth 1 -exec tar -cjf {}.tar.gz -C {} . \; >/dev/null 2>&1
+
       if test -e "$image_sync_script"; then
 
         if sh "$image_sync_script" "$source"; then
