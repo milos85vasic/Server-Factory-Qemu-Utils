@@ -1,21 +1,19 @@
 #!/bin/sh
 
-image_sync_settings="image_sync.settings"
+image_sync_script="image_sync.sh"
 image_location_settings="image_location.settings"
 
 if test -e "$image_location_settings"; then
 
   source=$(cat "$image_location_settings")
-  if [ ! -d "$source" ]
-  then
+  if ! test -e "$source"; then
 
       echo "Synchronization path unavailable: $source"
   else
 
-      if test -e "$image_sync_settings"; then
+      if test -e "$image_sync_script"; then
 
-        command=$(cat "$image_sync_settings")
-        if "$command"; then
+        if sh "$image_sync_script" "$source"; then
 
             echo "Sync. completed"
         else
