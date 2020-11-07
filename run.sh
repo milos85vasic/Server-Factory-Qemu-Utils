@@ -48,11 +48,20 @@ else
         if test -e "$image_provider_settings"; then
 
           provider_url=$(cat "$image_provider_settings")
-          url="$provider_url/$system.gz"
+          url="$provider_url/$system.tar.gz"
           download_destination="/tmp"
           if wget -P "$download_destination" "$url"; then
 
             echo "Image downloaded"
+            echo "Extracting image into: $obtain_image"
+            if tar -xf archive.tar.gz -C /home/linuxize/files; then
+
+              echo "Image is ready"
+            else
+
+              echo "ERROR: Could not extract image"
+              exit 1
+            fir
           else
 
             echo "ERROR: Image download failed"
