@@ -26,7 +26,7 @@ if test -e "$image_location_settings"; then
       else
 
         exit 1
-        echo "ERROR: $image_location_settings not available, please create file and add sync. parameters"
+        echo "ERROR: $image_location_settings not available, please create sync. script and try again"
       fi
   fi
 else
