@@ -12,7 +12,7 @@ if test -e "$image_location_settings"; then
   else
 
       find "$source" ! -path "$source" ! -path '*/\.*' \
-        -maxdepth 1 -exec tar -cjf {}.tar.gz -C {} . \; >/dev/null 2>&1
+        -maxdepth 1 -type d -exec sh compress.sh {} \;
 
       if test -e "$image_sync_script"; then
 
