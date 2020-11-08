@@ -18,7 +18,7 @@ else
   image_provider_settings="image_provider.settings"
   if test -e "$image_location_settings"; then
 
-    image_location=$(cat "$image_location_settings")
+    image_location=$(cat "$image_location_settings")/Uncompressed
     if test -e "$image_location"; then
 
       echo "Images location search path: $image_location"
@@ -54,7 +54,18 @@ else
 
             echo "Image downloaded"
             echo "Extracting image into: $obtain_image"
-            if tar -xf "$download_destination/$system.tar.gz" -C /home/linuxize/files; then
+            if ! test -e "$obtain_image"; then
+
+              if mkdir -p "$obtain_image"; then
+
+                echo "$obtain_image: Directory created"
+              else
+
+                echo "ERROR: $obtain_image directory not created"
+                exit 1
+              fi
+            fi
+            if tar -xf "$download_destination/$system.tar.gz" -C "$obtain_image"; then
 
               echo "Image is ready"
             else
@@ -77,7 +88,7 @@ else
       # TODO: Deploy
     else
 
-      echo "ERROR: $image_location images location path does not exist"
+      echo "ERROR: $image_location images location search path does not exist"
       exit 1
     fi
   else
