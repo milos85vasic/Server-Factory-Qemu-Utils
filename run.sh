@@ -20,7 +20,7 @@ else
 
       echo "Iso(s) location search path: $iso_location"
       full_iso="$iso_location/$iso"
-      if test -e "$obtain_image_disk"; then
+      if test -e "$full_iso"; then
 
         echo "$full_iso: Found"
       else
@@ -156,4 +156,4 @@ else
   fi
 fi
 
-sh machine.sh "$machine" "$full_iso"
+# sh machine.sh "$machine" "$full_iso"
