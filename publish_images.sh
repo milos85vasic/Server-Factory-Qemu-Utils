@@ -12,8 +12,8 @@ if test -e "$image_location_settings"; then
   else
 
       find "$source/Uncompressed" ! -path "$source/Uncompressed" ! -path '*/\.*' \
-        -maxdepth 1 -type d -exec sh compress.sh {} \; && \
-        mv "$source"/Uncompressed/*.tar.gz "$source"/Compressed/
+        -maxdepth 1 -type d -exec sh compress.sh {} "../../Compressed" \; && \
+        mv "$source"/Uncompressed/*.tar.gz "$source"/Compressed/ >/dev/null 2>&1
 
       if test -e "$image_sync_script"; then
 
