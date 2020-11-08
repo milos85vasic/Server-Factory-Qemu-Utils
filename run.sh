@@ -19,6 +19,15 @@ else
     if test -e "$iso_location"; then
 
       echo "Iso(s) location search path: $iso_location"
+      full_iso="$iso_location/$iso"
+      if test -e "$obtain_image_disk"; then
+
+        echo "$full_iso: Found"
+      else
+
+        echo "ERROR: $full_iso not found"
+        exit 1
+      fi
     else
 
       echo "ERROR: $iso_location iso(s) location search path does not exist"
@@ -66,8 +75,7 @@ else
       echo "Looking for image: $obtain_image"
       if test -e "$obtain_image_disk"; then
 
-        echo "Found: $obtain_image_disk"
-        echo "Deploying to: $machine"
+        echo "$obtain_image_disk: Found, deploying to: $machine"
       else
 
         echo "WARNING: $obtain_image_disk has not been found"
@@ -133,4 +141,4 @@ else
   fi
 fi
 
-# sh machine.sh "$machine" "$iso"
+sh machine.sh "$machine" "$full_iso"
