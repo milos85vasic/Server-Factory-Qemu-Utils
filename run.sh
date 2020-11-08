@@ -3,6 +3,16 @@
 iso=$2
 machine=$1
 
+if [ -z "$iso" ]
+then
+
+  echo "No iso image provided"
+else
+
+  echo "Checking iso image: $iso"
+
+fi
+
 echo "Checking system image availability"
 disk="disk.qcow2"
 image="$machine/$disk"
