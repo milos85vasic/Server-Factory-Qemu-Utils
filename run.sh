@@ -10,7 +10,25 @@ then
 else
 
   echo "Checking iso image: $iso"
+  iso_location_settings="iso_location.settings"
+  iso_provider_settings="iso_provider.settings"
 
+  if test -e "$iso_location_settings"; then
+
+    iso_location=$(cat "$iso_location_settings")
+    if test -e "$iso_location"; then
+
+      echo "Iso(s) location search path: $iso_location"
+    else
+
+      echo "ERROR: $iso_location iso(s) location search path does not exist"
+      exit 1
+    fi
+  else
+
+    exit 1
+    echo "ERROR: $iso_location_settings not available, please create file and add absolute path to iso(s) to it"
+  fi
 fi
 
 echo "Checking system image availability"
