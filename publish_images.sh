@@ -11,13 +11,13 @@ if test -e "$image_location_settings"; then
       echo "Synchronization path unavailable: $source"
   else
 
-      find "$source" ! -path "$source" ! -path '*/\.*' \
+      find "$source/Uncompressed" ! -path "$source/Uncompressed" ! -path '*/\.*' \
         -maxdepth 1 -type d -exec sh compress.sh {} \; && \
-        mv "$source"/*.tar.gz "$source"/../Compressed/
+        mv "$source"/Uncompressed/*.tar.gz "$source"/Compressed/
 
       if test -e "$image_sync_script"; then
 
-        if sh "$image_sync_script" "$source/../Compressed/" "Images/Qemu"; then
+        if sh "$image_sync_script" "$source/Compressed/" "Images/Qemu"; then
 
             echo "Sync. completed"
         else
