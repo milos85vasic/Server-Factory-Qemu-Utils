@@ -8,7 +8,7 @@ disk="disk.qcow2"
 image="$machine/$disk"
 if test -e "$image"; then
 
-  echo "$image: Is available"
+  echo "$image: Is ready"
 else
 
   echo "$image: Is not available"
@@ -85,7 +85,14 @@ else
         fi
       fi
 
-      cp -a "$obtain_image/" "$machine"
+      if cp -a "$obtain_image/" "$machine"; then
+
+        echo "$obtain_image deployed to: $machine"
+      else
+
+        echo "$obtain_image was not deployed to: $machine"
+        exit 1
+      fi
     else
 
       echo "ERROR: $image_location images location search path does not exist"
