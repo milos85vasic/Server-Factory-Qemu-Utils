@@ -25,8 +25,23 @@ else
         echo "$full_iso: Found"
       else
 
-        echo "ERROR: $full_iso not found"
-        exit 1
+        echo "WARNING: $full_iso has not been found"
+        echo "Downloading: $iso into $iso_location"
+
+        if test -e "$iso_provider_settings"; then
+
+          iso_provider_url=$(cat "$iso_provider_settings")
+          iso_url="$iso_provider_url/Images/Iso/$iso"
+          iso_download_destination="$iso_location"
+          if wget -P "$iso_download_destination" "$iso_url"; then
+
+            echo "Iso downloaded"
+          else
+
+            echo "ERROR: Iso download failed"
+            exit 1
+          fi
+        fi
       fi
     else
 
