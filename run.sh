@@ -85,7 +85,7 @@ else
         fi
       fi
 
-      # TODO: Deploy
+      cp -a "$obtain_image/" "$machine"
     else
 
       echo "ERROR: $image_location images location search path does not exist"
