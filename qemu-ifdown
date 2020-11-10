@@ -8,8 +8,3 @@ else
 
   echo "ERROR: Failed to complete with success"
 fi
-
-if ! sh is_macos.sh; then
-
-  sudo systemctl unmask sleep.target suspend.target hibernate.target hybrid-sleep.target
-fi
