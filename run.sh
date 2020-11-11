@@ -50,8 +50,8 @@ else
     fi
   else
 
-    exit 1
     echo "ERROR: $iso_location_settings not available, please create file and add absolute path to iso(s) to it"
+    exit 1
   fi
 fi
 
@@ -134,8 +134,8 @@ else
             fi
           else
 
-            exit 1
             echo "ERROR: $image_provider_settings not available, please create file and add images server url to it"
+            exit 1
           fi
         fi
 
@@ -154,8 +154,8 @@ else
       fi
     else
 
-      exit 1
       echo "ERROR: $image_location_settings not available, please create file and add absolute path to images to it"
+      exit 1
     fi
   else
 
