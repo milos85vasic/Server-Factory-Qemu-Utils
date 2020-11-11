@@ -5,6 +5,5 @@ image_provider.settings
 
 iso_location.settings
 iso_provider.settings
-iso_sync.sh
 
 !Examples/*.*
