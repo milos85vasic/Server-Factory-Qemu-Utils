@@ -1,6 +1,7 @@
 #!/bin/sh
 
 cat logo.txt
+cat version.txt
 
 iso=$2
 machine=$1
