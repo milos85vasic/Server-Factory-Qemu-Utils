@@ -2,15 +2,15 @@
 
 if sh is_macos.sh; then
 
-  echo "hvf"
+  echo "-accel hvf"
 else
 
   if uname | grep -i "linux" >/dev/null 2>&1; then
 
-    echo "kvm"
+    echo "-enable-kvm"
   else
 
-    echo "tcg"
+    echo "-accel tcg"
   fi
 fi
 
