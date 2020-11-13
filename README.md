@@ -12,3 +12,14 @@ are located under [Examples](./Examples) directory.
 ## How to use
 
 Tbd.
+
+## Preparing guest operating systems
+
+Guest operating system should be installed with `noapic` setting for the kernel.
+To do so follow these steps:
+
+- Boot into the guest operating system
+- Edit the following file: `/boot/grub2/grub.cnf`
+- Locate kernel loading line ad append `noapic` setting. Line should look similar to this: 
+`kernel /vmlinuz-2.6.18-194.el5 ro root=/dev/VolGroup00/LogVol00 rhgb quiet noapic acpi=off`
+
