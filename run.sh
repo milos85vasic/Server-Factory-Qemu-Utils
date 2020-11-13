@@ -1,7 +1,8 @@
 #!/bin/sh
 
-cat logo.txt
-cat version.txt
+cat logo.txt && \
+cat version.txt && \
+echo ""
 
 iso=$2
 machine=$1
