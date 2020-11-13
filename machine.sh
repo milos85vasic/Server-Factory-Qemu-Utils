@@ -12,7 +12,7 @@ disk=$(sh create_disk.sh "$machine" 20 "$tap")
 
 if ! sudo qemu-system-x86_64 $acceleration -cpu qemu64 -m 4096 -smp 2 \
   -display "$display",show-cursor=on -usb -device usb-tablet -vga virtio \
-  -drive file="$disk,format=qcow2,if=virtio" \
+  -drive file="$disk",format=qcow2,if=virtio \
   -net nic -net tap,ifname="$tap" \
   -cdrom "$iso"; then
 
