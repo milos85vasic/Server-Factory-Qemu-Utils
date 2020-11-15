@@ -5,6 +5,7 @@ Qemu utils for [Server Factory](https://github.com/milos85vasic/Server-Factory).
 ## Notes
 
 This set of Qemu management scripts is in proof of concept phase. It is not production ready.
+So far it has been tried out on macOS only!
 
 Example files for `image_sync.sh`, `image_location.settings` and `image_provider.settings` 
 are located under [Examples](./Examples) directory.
